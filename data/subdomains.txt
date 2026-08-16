@@ -1,0 +1,10 @@
+www
+app
+api
+dev
+staging
+admin
+portal
+mail
+vpn
+status
