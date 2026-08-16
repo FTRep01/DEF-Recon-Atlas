@@ -1,12 +1,32 @@
 # Recon Atlas
 
-**Custom scanners modulares para inventário autorizado de superfície de ataque.**
+<p align="center">
+  <strong>Reconhecimento autorizado, modular e reproduzível para equipes de segurança.</strong><br>
+  DNS · subdomínios · portas TCP · caminhos HTTP · evidências · relatórios
+</p>
 
-Recon Atlas é um toolkit defensivo em Python para avaliar ativos próprios ou explicitamente autorizados. Ele combina descoberta de subdomínios, varredura TCP de portas, enumeração conservadora de caminhos HTTP, resolução DNS, escopo obrigatório, rate limiting e relatórios reproduzíveis.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/Licen%C3%A7a-MIT-green.svg" alt="Licença MIT">
+  <img src="https://img.shields.io/badge/Modo-Safe%20by%20default-0A7B83.svg" alt="Seguro por padrão">
+</p>
 
-> **Uso autorizado somente.** O projeto não explora vulnerabilidades, não faz bypass de autenticação, não executa payloads e não deve ser usado contra terceiros sem autorização documentada.
+> **Uso autorizado somente.** Execute o Recon Atlas apenas em ativos próprios ou cobertos por autorização escrita. O projeto não explora vulnerabilidades, não faz bypass de autenticação, não executa payloads e não tenta esconder o scanner.
 
-## O que torna o projeto diferente
+---
+
+## Visão rápida
+
+| O que você quer descobrir | Módulo | Resultado |
+|---|---|---|
+| Registros e candidatos de subdomínio | `dns` / `subdomains` | Evidências DNS e candidatos passivos |
+| Portas TCP acessíveis | `ports` | Estado TCP com timeout e limite |
+| Caminhos HTTP interessantes | `paths` | Status, tipo, tamanho e título |
+| Histórico de uma execução | `run.json` | Scope, hash, módulos, achados e erros |
+| Relatório para pessoas ou CI | `report` | JSON, CSV, Markdown e HTML |
+
+<details>
+<summary><strong>Por que este projeto é diferente?</strong></summary>
 
 - **Scope firewall:** cada execução exige um arquivo de autorização com alvos, portas, caminhos, janela de tempo e limites.
 - **Evidence cards:** cada achado guarda evidência, timestamp, método e nível de confiança.
@@ -15,6 +35,13 @@ Recon Atlas é um toolkit defensivo em Python para avaliar ativos próprios ou e
 - **Noisy by design:** User-Agent identificável e header de contato configurável.
 - **Reproducible runs:** configuração, versão, hash da scope e resultados ficam no artefato.
 - **Three lenses:** DNS, portas e conteúdo HTTP são módulos independentes.
+
+</details>
+
+---
+
+
+---
 
 ## Início rápido
 
@@ -26,6 +53,16 @@ python3 -m recon_atlas.cli report --input artifacts/run.json --format markdown -
 ```
 
 O primeiro comando cria um modelo para revisão. Edite `scope.json`, confirme propriedade/autorização e execute o scan somente depois.
+
+
+<details>
+<summary><strong>Navegação rápida</strong></summary>
+
+[Instalação](#instalação) · [Uso](#uso) · [Módulos](#módulos) · [Segurança operacional](#segurança-operacional) · [Testes](#testes) · [Roadmap](#roadmap)
+</details>
+
+
+---
 
 ## Autorização e limites
 
@@ -55,6 +92,9 @@ A scope valida alvo, porta, prefixo HTTP, janela de tempo, orçamento, concorrê
 
 Não coloque tokens, cookies, senhas ou chaves privadas no arquivo de scope.
 
+
+---
+
 ## Instalação
 
 Requer Python 3.10+ e não exige dependências externas no núcleo:
@@ -75,6 +115,9 @@ py -m venv .venv
 python -m pip install -e .
 ```
 
+
+---
+
 ## Uso
 
 ```bash
@@ -87,6 +130,9 @@ python -m recon_atlas.cli report --input artifacts/ports.json --format html --ou
 
 O módulo HTTP faz GET simples, respeita prefixos autorizados e não tenta autenticação, bypass, fuzzing de parâmetros ou exploração. O módulo TCP só estabelece conexões, sem payload de protocolo ou banner grabbing agressivo.
 
+
+---
+
 ## Módulos
 
 - `scope`: autorização, janela, escopo de hosts, portas, caminhos e orçamento.
@@ -95,6 +141,9 @@ O módulo HTTP faz GET simples, respeita prefixos autorizados e não tenta auten
 - `http_paths`: GET limitado, status, content-type, tamanho e título básico.
 - `evidence`: cartões normalizados com confiança e método.
 - `reports`: JSON, CSV, Markdown e HTML.
+
+
+---
 
 ## Estrutura de um achado
 
@@ -114,6 +163,9 @@ O módulo HTTP faz GET simples, respeita prefixos autorizados e não tenta auten
 
 Um finding é uma pista para revisão, não uma vulnerabilidade confirmada.
 
+
+---
+
 ## Segurança operacional
 
 - Execute somente em ativos próprios ou com autorização escrita.
@@ -124,6 +176,9 @@ Um finding é uma pista para revisão, não uma vulnerabilidade confirmada.
 - Verifique a política do provedor de nuvem antes de scans externos.
 - Pare se o proprietário, provedor ou monitoramento solicitar.
 
+
+---
+
 ## Testes
 
 ```bash
@@ -132,6 +187,9 @@ python -m compileall recon_atlas
 ```
 
 Os testes usam validação local e mocks, sem varredura externa. O CI executa testes, compilação, validação de scope e procura por segredos acidentais.
+
+
+---
 
 ## Estrutura do repositório
 
@@ -168,6 +226,9 @@ recon-atlas/
 `-- README.md
 ```
 
+
+---
+
 ## Roadmap
 
 ### v0.1
@@ -191,6 +252,9 @@ recon-atlas/
 - [ ] Integração opcional com sistemas de tickets.
 - [ ] Dashboard local sem envio automático de dados.
 
+
+---
+
 ## Referências
 
 - [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
@@ -199,6 +263,11 @@ recon-atlas/
 - [NIST SP 800-115](https://csrc.nist.gov/publications/detail/sp/800-115/final)
 - [MITRE ATT&CK Reconnaissance](https://attack.mitre.org/tactics/TA0043/)
 
+
+---
+
 ## Licença
 
 MIT. Veja `LICENSE`.
+
+> Antes de publicar, substitua `SEU_USUARIO` nos comandos e no badge pelo seu usuário do GitHub.
